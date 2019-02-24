@@ -2,7 +2,7 @@
   "name": "nodejs",
   "version": "1.0.0",
   "description": "",
-  "main": "issue.js",
+  "main": "new.js",
   "scripts": {
     "test": "rm -rf _idwallet && node addToWallet.js && node issue.js"
   },

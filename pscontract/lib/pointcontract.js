@@ -49,19 +49,10 @@ class PointContract extends Contract {
     async instantiate(ctx) {
         // No implementation required with this example
         // It could be where data migration is performed, if necessary
+        console.log(ctx.toString());
         console.log('Instantiate the contract');
     }
 
-    /**
-     * Issue commercial paper
-     *
-     * @param {Context} ctx the transaction context
-     * @param {String} issuer commercial paper issuer
-     * @param {Integer} paperNumber paper number for this issuer
-     * @param {String} issueDateTime paper issue date
-     * @param {String} maturityDateTime paper maturity date
-     * @param {Integer} faceValue face value of paper
-    */
     async new(ctx, mall, shop, phone, count, createTime, updateTime) {
 
         // create an instance of the paper
@@ -77,21 +68,10 @@ class PointContract extends Contract {
         return point.toBuffer();
     }
 
-    /**
-     * Buy commercial paper
-     *
-     * @param {Context} ctx the transaction context
-     * @param {String} issuer commercial paper issuer
-     * @param {Integer} paperNumber paper number for this issuer
-     * @param {String} currentOwner current owner of paper
-     * @param {String} newOwner new owner of paper
-     * @param {Integer} price price paid for this paper
-     * @param {String} purchaseDateTime time paper was purchased (i.e. traded)
-    */
-    async cancel(ctx, shop, phone, createTime, updateTime) {
+    async cancel(ctx,mall, shop, phone, count, createTime, updateTime) {
 
         // Retrieve the current paper using key fields provided
-        let pointKey = Point.makeKey([phone, createTime]);
+        let pointKey = Point.makeKey([mall, shop, phone, count]);
         let point = await ctx.pointList.getPoint(pointKey);
 
         // Validate current owner
@@ -102,6 +82,7 @@ class PointContract extends Contract {
         // First buy moves state from ISSUED to TRADING
         if (point.isNew()) {
             point.setCancel();
+            point.setUpdateTime(updateTime)
         } else {
             throw new Error('Point ' + phone + createTime + ' is not New. Current state = ' +point.getCurrentState());
         }

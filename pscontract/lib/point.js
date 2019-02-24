@@ -48,6 +48,10 @@ class Point extends State {
         return this.phone;
     }
 
+    setUpdateTime(updateTime) {
+        this.updateTime = updateTime;
+    }
+
     /**
      * Useful methods to encapsulate commercial paper states
      */

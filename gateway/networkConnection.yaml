@@ -4,7 +4,7 @@
 # blockchain network that are necessary for the applications to interact with it. These are all
 # knowledge that must be acquired from out-of-band sources. This file provides such a source.
 #
-name: "basic-network"
+name: "point-network"
 
 #
 # Any properties with an "x-" prefix will be treated as application-specific, exactly like how naming
@@ -19,7 +19,7 @@ x-type: "hlfv1"
 #
 # Describe what the target network is/does.
 #
-description: "The basic network"
+description: "The point network"
 
 #
 # Schema version of the content. Used by the SDK to apply the corresponding parsing rules.
@@ -33,17 +33,17 @@ version: "1.0"
 #
 channels:
   # name of the channel
-  mychannel:
+  cpchannel:
     # Required. list of orderers designated by the application to use for transactions on this
     # channel. This list can be a result of access control ("org1" can only access "ordererA"), or
     # operational decisions to share loads from applications among the orderers.  The values must
     # be "names" of orgs defined under "organizations/peers"
     orderers:
-      - orderer.example.com
+      - orderer.points.com
 
     # Required. list of peers from participating orgs
     peers:
-      peer0.org1.example.com:
+      peer0.org1.points.com:
         # [Optional]. will this peer be sent transaction proposals for endorsement? The peer must
         # have the chaincode installed. The app can also use this property to decide which peers
         # to send the chaincode install request. Default: true
@@ -71,7 +71,7 @@ organizations:
     mspid: Org1MSP
 
     peers:
-      - peer0.org1.example.com
+      - peer0.org1.points.com
 
     # [Optional]. Certificate Authorities issue certificates for identification purposes in a Fabric based
     # network. Typically certificates provisioning is done in a separate process outside of the
@@ -87,25 +87,25 @@ organizations:
 # SDK is implementation specific. Consult each SDK's documentation for its handling of orderers.
 #
 orderers:
-  orderer.example.com:
+  orderer.points.com:
     url: grpc://localhost:7050
 
     # these are standard properties defined by the gRPC library
     # they will be passed in as-is to gRPC client constructor
     grpcOptions:
-      ssl-target-name-override: orderer.example.com
+      ssl-target-name-override: orderer.points.com
 
 #
 # List of peers to send various requests to, including endorsement, query
 # and event listener registration.
 #
 peers:
-  peer0.org1.example.com:
+  peer0.org1.points.com:
     # this URL is used to send endorsement and query requests
     url: grpc://localhost:7051
 
     grpcOptions:
-      ssl-target-name-override: peer0.org1.example.com
+      ssl-target-name-override: peer0.org1.points.com
       request-timeout: 120001
 
 # Fabric-CA is a special kind of Certificate Authority provided by Hyperledger Fabric which allows

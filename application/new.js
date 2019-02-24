@@ -18,11 +18,11 @@ SPDX-License-Identifier: Apache-2.0
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { FileSystemWallet, Gateway } = require('fabric-network');
-const point = require('../pscontract/lib/point.js');
+const nowPoint = require('../pscontract/lib/point.js');
 
 // A wallet stores a collection of identities for use
 //const wallet = new FileSystemWallet('../user/isabella/wallet');
-const wallet = new FileSystemWallet('../identity/user/isabella/wallet');
+const wallet = new FileSystemWallet('../identity/user/Randall/wallet');
 
 // Main program function
 async function main() {
@@ -35,7 +35,7 @@ async function main() {
 
     // Specify userName for network access
     // const userName = 'isabella.issuer@magnetocorp.com';
-    const userName = 'User1@org1.example.com';
+    const userName = 'User1@org1.points.com';
 
     // Load connection profile; will be used to locate a gateway
     let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/networkConnection.yaml', 'utf8'));
@@ -53,26 +53,26 @@ async function main() {
     await gateway.connect(connectionProfile, connectionOptions);
 
     // Access PaperNet network
-    console.log('Use network channel: mychannel.');
+    console.log('Use network channel: cpchannel.');
 
-    const network = await gateway.getNetwork('mychannel');
+    const network = await gateway.getNetwork('cpchannel');
 
     // Get addressability to commercial paper contract
-    console.log('Use org.papernet.commercialpaper smart contract.');
+    console.log('Use org.pointnet.point smart contract.');
 
     const contract = await network.getContract('pointcontract', 'org.pointnet.point');
 
     // issue commercial paper
-    console.log('Submit commercial paper issue transaction.');
+    console.log('Submit customer point new transaction.');
 
     const issueResponse = await contract.submitTransaction('new', 'HuiJin', 'apple', '13611819694', '1000' , Date.now().toString(),'null');
 
     // process response
-    console.log('Process issue transaction response.');
+    console.log('Process new transaction response.');
 
-    let point = point.fromBuffer(issueResponse);
+    let point = nowPoint.fromBuffer(issueResponse);
 
-    console.log(`${paper.issuer} customer point : ${point.phone} successfully been newed for count ${point.count}`);
+    console.log(`${point.shop} customer point : ${point.phone} successfully been newed for count ${point.count}`);
     console.log('Transaction complete.');
 
   } catch (error) {
@@ -83,7 +83,7 @@ async function main() {
   } finally {
 
     // Disconnect from the gateway
-    console.log('Disconnect from Fabric gateway.')
+    console.log('Disconnect from Fabric gateway.');
     gateway.disconnect();
 
   }
